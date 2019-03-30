@@ -31,14 +31,14 @@ App = {
     });
   },
 
-  resolveHave: function (itemId) {
+  buyerFound: function (itemId) {
     console.log(itemId);
     web3.eth.getCoinbase((err, account) => {
       // console.log(account)
       if (err === null) {
         // console.log("account");
         App.contracts.Items.deployed().then(function (instance) {
-          return instance.resolveHaveRequest(itemId, account);
+          return instance.foundBuyer(itemId, account);
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
@@ -49,14 +49,14 @@ App = {
     });
   },
 
-  resolveNeed: function (itemId) {
+  sellerFound: function (itemId) {
     console.log(itemId);
     web3.eth.getCoinbase((err, account) => {
       console.log(account)
       if (err === null) {
         console.log("account");
         App.contracts.Items.deployed().then(function (instance) {
-          return instance.resolveNeedRequest(itemId, account);
+          return instance.foundSeller(itemId, account);
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
@@ -67,19 +67,37 @@ App = {
     });
   },
 
-  createReq: function(){
-    let  prod_name = $("#product").val();
-    let  quantity = $("#quantity").val();
-    let  type = $("#state").val();
-    let  price = $("#price").val();
-    console.log(prod_name,quantity,type,price);
+  resolveTrans: function (itemId) {
+    console.log(itemId);
+    web3.eth.getCoinbase((err, account) => {
+      console.log(account)
+      if (err === null) {
+        console.log("account");
+        App.contracts.Items.deployed().then(function (instance) {
+          return instance.resolveTransaction(itemId);
+        }).then(function (result) {
+          $("#content").hide();
+          $("#loader").show();
+        }).catch(function (err) {
+          console.error(err);
+        });
+      }
+    });
+  },
+
+  createReq: function () {
+    let prod_name = $("#product").val();
+    let quantity = $("#quantity").val();
+    let type = $("#state").val();
+    let price = $("#price").val();
+    console.log(prod_name, quantity, type, price);
     web3.eth.getCoinbase((err, account) => {
       if (err === null) {
         console.log(account);
         App.contracts.Items.deployed().then(function (instance) {
-          if(type=="supply"){
+          if (type == "supply") {
             return instance.createHaveRequest(account, prod_name, price, quantity);
-          }else{
+          } else {
             return instance.createNeedRequest(account, prod_name, price, quantity);
           }
         }).then(function (result) {
@@ -166,21 +184,25 @@ App = {
           var item_name = item[4];
           var price = item[5];
           var quantity = item[6];
+          var demand = item[7];
+          var inbetween = item[8];
           // console.log(price)
           const x = i;
-          if(complete){
-            closedTrans ++;
-          }else{
-            openTrans ++;
+          if (complete) {
+            closedTrans++;
+          } else {
+            openTrans++;
           }
 
           // Render items Result
-          if(complete == false){
+          if (inbetween == false) {
             var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td>"
-            if (seller == null || seller == "") {
-              
-              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveNeed(${x});return false">
-                                                          <button type="submit" class="btn btn-primary">Sell</button>
+
+            // seller found
+            if (demand) {
+
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.sellerFound(${x});return false">
+                                                          <button type="submit" class="btn btn-info">Sell</button>
                                                         </form>
                                                         </td>
                                                         </tr>`
@@ -188,8 +210,8 @@ App = {
             } else {
               // console.log("yess");
               candidateTemplate = candidateTemplate + "<td><span class='count'>" + price + "</span></td>"
-              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
-                                                          <button type="submit" class="btn btn-primary">Buy</button>
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.buyerFound(${x});return false">
+                                                          <button type="submit" class="btn btn-info">Buy</button>
                                                         </form>
                                                         </td>
                                                         </tr>`
@@ -197,20 +219,41 @@ App = {
             }
           }
           // console.log(seller);
-          if(complete){
-            if(seller === App.account){
+          if (complete || inbetween == true) {
+            let statString = "";
+            let action = "";
+            if (!complete) {
+              statString = "<div class='badge badge-pending'> pending </div>";
+              if ((demand && buyer == App.account) || (!demand && seller == App.account)) {
+                action = `
+                          <form onSubmit="App.resolveTrans(${x});return false">
+                          <button type="submit" class="btn btn-info">Accept Transaction</button>
+                          </form>
+                          `;
+              } else {
+                action = "None";
+              }
+            } else if (complete) {
+              statString = "<div class='badge badge-complete'> complete </div>";
+              action = "None";
+            }
+            if (seller === App.account) {
               let template = `<tr>
-                                <td class="badge badge-pending"> Sold </td>
+                                <td> Selling </td>
                                 <td> ${item_name} </td>
                                 <td><span class="count">${quantity}</span></td>
+                                <td> ${statString} </td>
+                                <td> ${action} </td>
                               </tr>
                               `
               myCompleteTrans.append(template);
-            }else if(buyer === App.account){
+            } else if (buyer === App.account) {
               let template = `<tr>
-                                <td class="badge badge-complete"> Recieved </td>
+                                <td > Buying </td>
                                 <td> ${item_name} </td>
                                 <td><span class="count">${quantity}</span></td>
+                                <td> ${statString} </td>
+                                <td> ${action} </td>
                               </tr>
                               `
               myCompleteTrans.append(template);

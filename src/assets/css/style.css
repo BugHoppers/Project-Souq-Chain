@@ -11,6 +11,10 @@ body {
   background-color: #f7fafc;
 }
 
+.jumbo{
+  height: 300px;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
 
 .bg-flat-color-1 {

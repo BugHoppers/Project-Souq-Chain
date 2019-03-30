@@ -10,6 +10,8 @@ contract Items {
         string name_of_item;
         int price;
         int quantity;
+        bool demand;
+        bool inbetween;
     }
 
     // Store RaiseItems
@@ -31,36 +33,44 @@ contract Items {
     // x amount of good with him
     function createHaveRequest(string memory _seller, string memory _name_of_item, int _price, int  _quantity) public {
         raisedItemsCount ++;
-        raisedItems[raisedItemsCount] = RaiseItem(raisedItemsCount, false, _seller, "", _name_of_item, _price, _quantity);
+        raisedItems[raisedItemsCount] = RaiseItem(raisedItemsCount, false, _seller, "", _name_of_item, _price, _quantity, false, false);
     }
 
     // To confirm the deal will the seller
-    function resolveHaveRequest(uint _raisedItemId, string memory customer) public {
+    function foundBuyer(uint _raisedItemId, string memory customer) public {
         // The transaction is not complete
         require(raisedItems[_raisedItemId].resolved == false);
-
+        require(raisedItems[_raisedItemId].inbetween == false);
         // The raisedItemId is valid
         require(_raisedItemId > 0 && _raisedItemId <= raisedItemsCount);
-        
-        raisedItems[_raisedItemId].resolved = true;
+        raisedItems[_raisedItemId].inbetween = true;
         raisedItems[_raisedItemId].customer = customer;
     }
 
     // A customer will raise a request if he need some good
     function createNeedRequest(string memory _buyer, string memory _name_of_item, int _price, int _quantity) public {
         raisedItemsCount ++;
-        raisedItems[raisedItemsCount] = RaiseItem(raisedItemsCount, false,"", _buyer, _name_of_item, _price, _quantity);
+        raisedItems[raisedItemsCount] = RaiseItem(raisedItemsCount, false,"", _buyer, _name_of_item, _price, _quantity, true, false);
     }
 
     // A seller confirms the deal with a customer
-    function resolveNeedRequest(uint _raisedItemId, string memory seller) public {
+    function foundSeller(uint _raisedItemId, string memory seller) public {
         // The transaction is not complete
         require(raisedItems[_raisedItemId].resolved == false);
+        require(raisedItems[_raisedItemId].inbetween == false);
 
         // The raisedItemId is valid
         require(_raisedItemId > 0 && _raisedItemId <= raisedItemsCount);
 
-        raisedItems[_raisedItemId].resolved = true;
+        raisedItems[_raisedItemId].inbetween = true;
         raisedItems[_raisedItemId].seller = seller;        
+    }
+
+    function resolveTransaction(uint _raisedItemId) public {
+        require(raisedItems[_raisedItemId].resolved == false);
+        require(raisedItems[_raisedItemId].inbetween == true);
+
+        require(_raisedItemId > 0 && _raisedItemId <= raisedItemsCount);
+        raisedItems[_raisedItemId].resolved = true;
     }
 }
