@@ -3,11 +3,11 @@ App = {
   contracts: {},
   account: '0x0',
 
-  init: function() {
+  init: function () {
     return App.initWeb3();
   },
 
-  initWeb3: function() {
+  initWeb3: function () {
     if (typeof web3 !== 'undefined') {
       // If a web3 instance is already provided by Meta Mask.
       App.web3Provider = web3.currentProvider;
@@ -20,8 +20,8 @@ App = {
     return App.initContract();
   },
 
-  initContract: function() {
-    $.getJSON("Items.json", function(items) {
+  initContract: function () {
+    $.getJSON("Items.json", function (items) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.Items = TruffleContract(items);
       // Connect provider to interact with contract
@@ -31,79 +31,105 @@ App = {
     });
   },
 
-  resolveHave: function() {
-    let itemId1 = $('#haveSelect1').val();
-    console.log(itemId1);
-    web3.eth.getCoinbase((err, account)=> {
+  resolveHave: function (itemId) {
+    console.log(itemId);
+    web3.eth.getCoinbase((err, account) => {
       // console.log(account)
       if (err === null) {
         // console.log("account");
-        App.contracts.Items.deployed().then(function(instance) {
-          return instance.resolveHaveRequest(itemId1, account);
-        }).then(function(result) {
+        App.contracts.Items.deployed().then(function (instance) {
+          return instance.resolveHaveRequest(itemId, account);
+        }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.error(err);
         });
       }
     });
   },
 
-  resolveNeed: function(){
-    let itemId2 = $('#needSelect1').val();
-    console.log(itemId2);
-    web3.eth.getCoinbase((err, account)=> {
+  resolveNeed: function (itemId) {
+    console.log(itemId);
+    web3.eth.getCoinbase((err, account) => {
       console.log(account)
       if (err === null) {
         console.log("account");
-        App.contracts.Items.deployed().then(function(instance) {
-          return instance.resolveNeedRequest(itemId2, account);
-        }).then(function(result) {
+        App.contracts.Items.deployed().then(function (instance) {
+          return instance.resolveNeedRequest(itemId, account);
+        }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.error(err);
         });
       }
     });
   },
 
-  createHave: function() {
+  createReq: function(){
+    let  prod_name = $("#product").val();
+    let  quantity = $("#quantity").val();
+    let  type = $("#state").val();
+    let  price = $("#price").val();
+    console.log(prod_name,quantity,type,price);
+    web3.eth.getCoinbase((err, account) => {
+      if (err === null) {
+        console.log(account);
+        App.contracts.Items.deployed().then(function (instance) {
+          if(type=="supply"){
+            return instance.createHaveRequest(account, prod_name, price, quantity);
+          }else{
+            return instance.createNeedRequest(account, prod_name, price, quantity);
+          }
+        }).then(function (result) {
+          $("#content").hide();
+          $("#loader").show();
+        }).catch(function (err) {
+          console.error(err);
+        });
+      }
+    });
+  },
+
+  createHave: function () {
     let name_of_item = "";
     let quantity = 0;
-    web3.eth.getCoinbase((err, account)=> {
+    let price = 0;
+    web3.eth.getCoinbase((err, account) => {
       if (err === null) {
-        App.contracts.Items.deployed().then(function(instance) {
-          return instance.createHaveRequest(account, name_of_item, quantity);
-        }).then(function(result) {
+        console.log(account);
+        App.contracts.Items.deployed().then(function (instance) {
+          return instance.createHaveRequest(account, name_of_item, price, quantity);
+        }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.error(err);
         });
       }
     });
   },
 
-  createNeed: function() {
-    let name_of_item  = "";
+  createNeed: function () {
+    let name_of_item = "";
     let quantity = "";
-    web3.eth.getCoinbase((err, account)=> {
+    let price = 0;
+    web3.eth.getCoinbase((err, account) => {
       if (err === null) {
-        App.contracts.Items.deployed().then(function(instance) {
-          return instance.resolveNeedRequest(account, _name_of_item, quantity);
-        }).then(function(result) {
+        App.contracts.Items.deployed().then(function (instance) {
+          return instance.resolveNeedRequest(account, _name_of_item, price, quantity);
+        }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.error(err);
         });
       }
     });
   },
 
-  render: function() {
+  render: function () {
     var loader = $("#loader");
     var content = $("#content");
 
@@ -111,77 +137,101 @@ App = {
     content.hide();
 
     // Load account data
-    web3.eth.getCoinbase((err, account)=> {
+    web3.eth.getCoinbase((err, account) => {
       // console.log(account)
       if (err === null) {
         App.account = account;
-        $("#accountAddress").html("Your Account: " + account);
+        // $("#accountAddress").html("Your Account: " + account);
       }
     });
 
     // Load contract data
-    App.contracts.Items.deployed().then(function(instance) {
+    App.contracts.Items.deployed().then(function (instance) {
       itemsInstance = instance;
       return itemsInstance.raisedItemsCount();
-    }).then(async function(itemsCount) {
+    }).then(async function (itemsCount) {
       var haveItems = $("#haveItems");
       var needItems = $("#needItems");
+      var myCompleteTrans = $("#myCompTrans");
       haveItems.empty();
       needItems.empty();
-
+      myCompleteTrans.empty();
+      let openTrans = 0;
+      let closedTrans = 0;
       for (var i = 1; i <= itemsCount; i++) {
-        await itemsInstance.raisedItems(i).then(function(item) {
+        await itemsInstance.raisedItems(i).then(function (item) {
           var complete = item[1];
           var seller = item[2];
           var buyer = item[3];
           var item_name = item[4];
-          var quantity = item[5];
+          var price = item[5];
+          var quantity = item[6];
+          // console.log(price)
+          const x = i;
+          if(complete){
+            closedTrans ++;
+          }else{
+            openTrans ++;
+          }
 
           // Render items Result
-          var candidateTemplate = "<tr><th>" + complete + "</th><td>" + item_name + "</td><td>" + quantity + "</td>"
-          if(seller == null || seller == ""){
-            candidateTemplate = candidateTemplate +  `<td><form onSubmit="App.resolveHave();return false">
-                                                        <div class="form-group">
-                                                          <div style="display:hidden">
-                                                            <select class="form-control" id="haveSelect">
-                                                              <option id="haveSelect1" value="${i}"> ${i}</option>
-                                                            </select>
-                                                          </div>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">Buy</button>
-                                                      </form>
-                                                      </td>
-                                                      </tr>`
-            needItems.append(candidateTemplate);
-          }else{
-            // console.log("yess");
-            candidateTemplate = candidateTemplate +  `<td><form onSubmit="App.resolveHave();return false">
-                                                        <div class="form-group">
-                                                          <div style="display:hidden">
-                                                            <select class="form-control" id="needSelect">
-                                                              <option id="needSelect1"value="${i}"> ${i}</option>
-                                                            </select>
-                                                          </div>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">Buy</button>
-                                                      </form>
-                                                      </td>
-                                                      </tr>`
-            haveItems.append(candidateTemplate);
+          if(complete == false){
+            var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td>"
+            if (seller == null || seller == "") {
+              
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
+                                                          <button type="submit" class="btn btn-primary">Sell</button>
+                                                        </form>
+                                                        </td>
+                                                        </tr>`
+              haveItems.append(candidateTemplate);
+            } else {
+              // console.log("yess");
+              candidateTemplate = candidateTemplate + "<td><span class='count'>" + price + "</span></td>"
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
+                                                          <button type="submit" class="btn btn-primary">Buy</button>
+                                                        </form>
+                                                        </td>
+                                                        </tr>`
+              needItems.append(candidateTemplate);
+            }
+          }
+          // console.log(seller);
+          if(complete){
+            if(seller === App.account){
+              let template = `<tr>
+                                <td class="badge badge-pending"> Sold </td>
+                                <td> ${item_name} </td>
+                                <td><span class="count">${quantity}</span></td>
+                              </tr>
+                              `
+              myCompleteTrans.append(template);
+            }else if(buyer === App.account){
+              let template = `<tr>
+                                <td class="badge badge-complete"> Recieved </td>
+                                <td> ${item_name} </td>
+                                <td><span class="count">${quantity}</span></td>
+                              </tr>
+                              `
+              myCompleteTrans.append(template);
+            }
           }
         });
       }
 
+      $("#openTrans").html(openTrans);
+      $("#closedTrans").html(closedTrans);
+
       loader.hide();
       content.show();
-    }).catch(function(error) {
+    }).catch(function (error) {
       console.warn(error);
     });
   }
 };
 
-$(function() {
-  $(window).load(function() {
+$(function () {
+  $(window).load(function () {
     App.init();
   });
 });
