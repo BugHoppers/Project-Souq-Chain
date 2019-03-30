@@ -144,9 +144,9 @@ App = {
             openTrans ++;
           }
 
-          if(!complete){
-            // Render items Result
-            var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td><td>" + complete + "</span></td>"
+          // Render items Result
+          if(complete == false){
+            var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td>"
             if (seller == null || seller == "") {
               candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
                                                           <button type="submit" class="btn btn-primary">Sell</button>
@@ -156,14 +156,16 @@ App = {
               haveItems.append(candidateTemplate);
             } else {
               // console.log("yess");
-              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveNeed(${x});return false">
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
                                                           <button type="submit" class="btn btn-primary">Buy</button>
                                                         </form>
                                                         </td>
                                                         </tr>`
               needItems.append(candidateTemplate);
             }
-          }else{
+          }
+          // console.log(seller);
+          if(complete){
             if(seller === App.account){
               let template = `<tr>
                                 <td> Sold </td>
@@ -182,8 +184,6 @@ App = {
               myCompleteTrans.append(template);
             }
           }
-
-
         });
       }
 
