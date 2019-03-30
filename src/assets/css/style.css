@@ -1,6 +1,6 @@
 /* Google Fonts  */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
-
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300');
 /* Googel Fonts End  
 
 */
@@ -2611,15 +2611,6 @@ header .form-inline .search-form.close {
 
 /*    Floating Button
 ---------------------------*/
-
-#fixedbutton {
-  position: fixed;
-  bottom: 60px;
-  right: 80px; 
-  font-size: 60px;
-  color: rgb(248, 115, 53);
-  text-shadow: 2px 2px 3px #999;
-}
 
 /* The Modal (background) */
 .modal {
