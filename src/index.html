@@ -16,20 +16,44 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+        }
+    </script>
+    <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 </head>
 
 <body>
 
+
     <!-- Header-->
     <header id="header" class="header">
 
         <div class="navbar-header">
+            <!-- Begin Translation Button -->
+            <form id="form1" runat="server">
+                <div id="google_translate_element" style="display: none">
+                </div>
+                <ul style="text-align: right; margin-right: 15px;">
+                    <li>
+                        <a href="javascript:;" id="English" onclick="translateLanguage(this.id);"><span>English
+                            </span></a> &nbsp;
+                        <a href="javascript:;" id="Hindi" onclick="translateLanguage(this.id);"><span>Hindi
+                            </span></a>
+                    </li>
+                </ul>
+            </form>
+            <!-- End Translation Button -->
             <div class="jumbo row justify-content-center">
                 <a class="navbar-brand" href="./"><img style="height: 250px; width: auto;"
                         src="./assets/images/logo.png" alt="Logo"></a>
                 <!-- <p id="accountAddress" class="text-center">Account</p> -->
-                <div style="font-family: 'Montserrat', sans-serif; background-color: rgba(0, 0, 0, 0)" class="jumbotron">
+                <div style="font-family: 'Montserrat', sans-serif; background-color: rgba(0, 0, 0, 0)"
+                    class="jumbotron">
                     <h1 class="display-4">Introducing Souq-Chain</h1>
                     <p class="lead">Bridging the gap between the consumers and producers by making transactions
                         secure and simple.</p>
@@ -46,7 +70,7 @@
     <!-- /#header -->
     <div class="content">
         <!-- Widgets  -->
-        <div class="row" style="margin-left: 17%">
+        <div id="widget" class="row" style="margin-left: 17%">
             <div class="col-lg-3 col-md-6">
                 <div class="card">
                     <div class="card-body">

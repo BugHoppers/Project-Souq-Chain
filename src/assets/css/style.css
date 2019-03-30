@@ -3490,6 +3490,15 @@ footer.site-footer .footer-inner a {
     display: inherit;
   }
 
+  .jumbo{
+    height: 600px;
+    margin-left: 30px;
+  }
+
+  #widget{
+    margin-right: 50px;
+  }
+
   #left-panel .navbar .main-menu {
     display: inherit;
   }
