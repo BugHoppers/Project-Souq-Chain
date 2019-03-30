@@ -2635,6 +2635,10 @@ header .form-inline .search-form.close {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+#state{
+  height: 40px;
+}
+
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
