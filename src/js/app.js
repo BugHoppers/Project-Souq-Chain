@@ -200,7 +200,7 @@ App = {
           if(complete){
             if(seller === App.account){
               let template = `<tr>
-                                <td> Sold </td>
+                                <td class="badge badge-pending"> Sold </td>
                                 <td> ${item_name} </td>
                                 <td><span class="count">${quantity}</span></td>
                               </tr>
@@ -208,7 +208,7 @@ App = {
               myCompleteTrans.append(template);
             }else if(buyer === App.account){
               let template = `<tr>
-                                <td> Recived </td>
+                                <td class="badge badge-complete"> Recieved </td>
                                 <td> ${item_name} </td>
                                 <td><span class="count">${quantity}</span></td>
                               </tr>
