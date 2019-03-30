@@ -124,8 +124,10 @@ App = {
     }).then(async function (itemsCount) {
       var haveItems = $("#haveItems");
       var needItems = $("#needItems");
+      var myCompleteTrans = $("#myCompTrans");
       haveItems.empty();
       needItems.empty();
+      myCompleteTrans.empty();
       let openTrans = 0;
       let closedTrans = 0;
       for (var i = 1; i <= itemsCount; i++) {
@@ -142,27 +144,49 @@ App = {
             openTrans ++;
           }
 
-          // Render items Result
-          var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td><td>" + complete + "</span></td>"
-          if (seller == null || seller == "") {
-            candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
-                                                        <button type="submit" class="btn btn-primary">Sell</button>
-                                                      </form>
-                                                      </td>
-                                                      </tr>`
-            haveItems.append(candidateTemplate);
-          } else {
-            // console.log("yess");
-            candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
-                                                        <button type="submit" class="btn btn-primary">Buy</button>
-                                                      </form>
-                                                      </td>
-                                                      </tr>`
-            needItems.append(candidateTemplate);
+          if(!complete){
+            // Render items Result
+            var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td><td>" + complete + "</span></td>"
+            if (seller == null || seller == "") {
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
+                                                          <button type="submit" class="btn btn-primary">Sell</button>
+                                                        </form>
+                                                        </td>
+                                                        </tr>`
+              haveItems.append(candidateTemplate);
+            } else {
+              // console.log("yess");
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveNeed(${x});return false">
+                                                          <button type="submit" class="btn btn-primary">Buy</button>
+                                                        </form>
+                                                        </td>
+                                                        </tr>`
+              needItems.append(candidateTemplate);
+            }
+          }else{
+            if(seller === App.account){
+              let template = `<tr>
+                                <td> Sold </td>
+                                <td> ${item_name} </td>
+                                <td><span class="count">${quantity}</span></td>
+                              </tr>
+                              `
+              myCompleteTrans.append(template);
+            }else if(buyer === App.account){
+              let template = `<tr>
+                                <td> Recived </td>
+                                <td> ${item_name} </td>
+                                <td><span class="count">${quantity}</span></td>
+                              </tr>
+                              `
+              myCompleteTrans.append(template);
+            }
           }
+
+
         });
       }
-      
+
       $("#openTrans").html(openTrans);
       $("#closedTrans").html(closedTrans);
 
