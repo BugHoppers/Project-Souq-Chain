@@ -179,7 +179,7 @@ App = {
             var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td>"
             if (seller == null || seller == "") {
               
-              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
+              candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveNeed(${x});return false">
                                                           <button type="submit" class="btn btn-primary">Sell</button>
                                                         </form>
                                                         </td>
