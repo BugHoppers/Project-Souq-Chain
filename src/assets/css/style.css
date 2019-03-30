@@ -184,7 +184,11 @@ Googel Fonts  */
   background: #03a9f3;
 }
 
-.bg-flat-color-4 {
+.bg-#fixedbutton {
+  position: fixed;
+  bottom: 0px;
+  right: 0px; 
+}flat-color-4 {
   background: #fb9678;
 }
 
@@ -2605,6 +2609,56 @@ header .form-inline .search-form.close {
   color: #fff;
 }
 
+/*    Floating Button
+---------------------------*/
+
+#fixedbutton {
+  position: fixed;
+  bottom: 60px;
+  right: 80px; 
+  font-size: 60px;
+  color: rgb(248, 115, 53);
+  text-shadow: 2px 2px 3px #999;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /*    Widget One
 ---------------------------*/
 .dib {
@@ -3001,6 +3055,15 @@ footer.site-footer .footer-inner a {
   .weather span {
     font-size: 12px;
   }
+
+  .feedback {
+    background-color : #31B0D5;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border-color: #46b8da;
+  }
+  
 }
 
 @media (max-width: 1024px) {
