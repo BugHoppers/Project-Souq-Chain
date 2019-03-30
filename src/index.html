@@ -245,13 +245,14 @@
 
                     <label for="state">Create</label>
                     <select id="state">
-                        <option>Supply</option>
-                        <option>Demand</option>
+                        <option value="demand">Demand</option>
+                        <option value="supply">Supply</option>
                     </select>
 
-                    <label for="price">Price</label>
-                    <input id="price" type="number" placeholder="Price">
-
+                    <div id="price-div" style="display: none">
+                        <label for="price">Price</label>
+                        <input id="price" type="number" placeholder="Price">
+                    </div>
 
                     <br>
                     <button type="submit" class="pure-button pure-button-primary">Submit</button>

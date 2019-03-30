@@ -23,3 +23,13 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+$(function () {
+  $("#state").change(function () {
+      if ($(this).val() == "supply") {
+          $("#price-div").show();
+      } else {
+          $("#price-div").hide();
+      }
+  });
+});
