@@ -21,7 +21,9 @@ contract Items {
     //Constructor
     constructor() public {
         createHaveRequest("0x5a9a0Af40806C0922f80309485665dd73532cCEb", "potatoes", 100);
+        createHaveRequest("0x5a9a0Af40806C0922f80309485665dd73532cCEb", "cabbage", 1000);
         createNeedRequest("0x5a9a0Af40806C0922f80309485665dd73532cCEb", "onion", 50);
+        createNeedRequest("0x5a9a0Af40806C0922f80309485665dd73532cCEb", "banana", 30);
     }
 
     // This will create a request where the seller can say that he has

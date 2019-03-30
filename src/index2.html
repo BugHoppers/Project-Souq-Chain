@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Souq Chain</title>
+
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container" style="width: 650px;">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="text-center">Souq Chain</h1>
+        <hr />
+        <br />
+        <div id="loader">
+          <p class="text-center">Loading...</p>
+        </div>
+        <div id="content" style="display: none;">
+          <!-- have -->
+          <div><span>Have</span></div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody id="haveItems">
+            </tbody>
+          </table>
+          <hr />
+
+          <!-- Need -->
+          <table class="table">
+            <div><span>Need</span></div>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody id="needItems">
+            </tbody>
+          </table>
+          <!-- <form onSubmit="App.castVote(); return false;">
+              <div class="form-group">
+                <label for="candidatesSelect">Select Candidate</label>
+                <select class="form-control" id="candidatesSelect">
+                  <option value="1"> 1</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Vote</button>
+              <hr />
+            </form> -->
+          <p id="accountAddress" class="text-center"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
