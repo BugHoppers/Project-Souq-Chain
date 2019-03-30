@@ -36,7 +36,7 @@
     <!-- /#header -->
     <div class="content">
         <!-- Widgets  -->
-        <div class="row">
+        <div class="row" style="margin-left: 17%">
             <div class="col-lg-3 col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6">
+            <!-- <div class="col-lg-3 col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-lg-3 col-md-6">
                 <div class="card">
@@ -100,8 +100,8 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">2986</span></div>
-                                    <div class="stat-heading">Clients</div>
+                                    <div class="stat-text"><span class="count">10</span></div>
+                                    <div class="stat-heading">Users</div>
                                 </div>
                             </div>
                         </div>
@@ -167,6 +167,7 @@
                                                 <!-- <th class="serial">#</th> -->
                                                 <th>Product</th>
                                                 <th>Quantity</th>
+                                                <th>Price</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -233,7 +234,7 @@
         <!-- Modal content -->
         <div class="modal-content">
 
-            <form class="pure-form pure-form-stacked">
+            <form class="pure-form pure-form-stacked" onsubmit="App.createReq(); return false">
                 <fieldset>
                     <legend>Request Form<span class="close">&times;</span></legend>
 

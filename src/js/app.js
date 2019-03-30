@@ -67,13 +67,40 @@ App = {
     });
   },
 
+  createReq: function(){
+    let  prod_name = $("#product").val();
+    let  quantity = $("#quantity").val();
+    let  type = $("#state").val();
+    let  price = $("#price").val();
+    console.log(prod_name,quantity,type,price);
+    web3.eth.getCoinbase((err, account) => {
+      if (err === null) {
+        console.log(account);
+        App.contracts.Items.deployed().then(function (instance) {
+          if(type=="supply"){
+            return instance.createHaveRequest(account, prod_name, price, quantity);
+          }else{
+            return instance.createNeedRequest(account, prod_name, price, quantity);
+          }
+        }).then(function (result) {
+          $("#content").hide();
+          $("#loader").show();
+        }).catch(function (err) {
+          console.error(err);
+        });
+      }
+    });
+  },
+
   createHave: function () {
     let name_of_item = "";
     let quantity = 0;
+    let price = 0;
     web3.eth.getCoinbase((err, account) => {
       if (err === null) {
+        console.log(account);
         App.contracts.Items.deployed().then(function (instance) {
-          return instance.createHaveRequest(account, name_of_item, quantity);
+          return instance.createHaveRequest(account, name_of_item, price, quantity);
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
@@ -87,10 +114,11 @@ App = {
   createNeed: function () {
     let name_of_item = "";
     let quantity = "";
+    let price = 0;
     web3.eth.getCoinbase((err, account) => {
       if (err === null) {
         App.contracts.Items.deployed().then(function (instance) {
-          return instance.resolveNeedRequest(account, _name_of_item, quantity);
+          return instance.resolveNeedRequest(account, _name_of_item, price, quantity);
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
@@ -113,7 +141,7 @@ App = {
       // console.log(account)
       if (err === null) {
         App.account = account;
-        $("#accountAddress").html("Your Account: " + account);
+        // $("#accountAddress").html("Your Account: " + account);
       }
     });
 
@@ -136,7 +164,9 @@ App = {
           var seller = item[2];
           var buyer = item[3];
           var item_name = item[4];
-          var quantity = item[5];
+          var price = item[5];
+          var quantity = item[6];
+          // console.log(price)
           const x = i;
           if(complete){
             closedTrans ++;
@@ -148,6 +178,7 @@ App = {
           if(complete == false){
             var candidateTemplate = "<tr><td><span class='product'>" + item_name + "</span></td><td><span class='count'>" + quantity + "</span></td>"
             if (seller == null || seller == "") {
+              
               candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
                                                           <button type="submit" class="btn btn-primary">Sell</button>
                                                         </form>
@@ -156,6 +187,7 @@ App = {
               haveItems.append(candidateTemplate);
             } else {
               // console.log("yess");
+              candidateTemplate = candidateTemplate + "<td><span class='count'>" + price + "</span></td>"
               candidateTemplate = candidateTemplate + `<td><form onSubmit="App.resolveHave(${x});return false">
                                                           <button type="submit" class="btn btn-primary">Buy</button>
                                                         </form>
