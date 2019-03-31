@@ -42,6 +42,7 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
@@ -60,6 +61,7 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
@@ -78,9 +80,11 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
+        
       }
     });
   },
@@ -103,6 +107,7 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
@@ -122,9 +127,11 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
+        
       }
     });
   },
@@ -140,9 +147,11 @@ App = {
         }).then(function (result) {
           $("#content").hide();
           $("#loader").show();
+          window.location.reload();
         }).catch(function (err) {
           console.error(err);
         });
+        
       }
     });
   },
