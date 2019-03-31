@@ -1,9 +1,11 @@
 # **PROJECT Souq-Chain**
 
+<img src="src/assets/images/logo.png"/>
+
 **This project is developed as a part of Hack In the North 4.0.**
 
 
-### **PROBLEM:**
+### **PROBLEM STATEMENT:**
 
 In a country like India, where a huge majority of the people are engaged in agriculture as their primary income, the people doing the hard work, the farmers, are being cunningly exploited by a multilayered system of intermediaries and cartels.
 
@@ -26,6 +28,10 @@ A supplier can monitor the market price as he has access to the transactions hap
 
 In case a deal has to be cancelled after processing it, the farmer can claim some amount of compensation. The buyer cannot deny placing an order or he cannot tamper the agreed price as the system is decentralized and a transaction in one block is reflected throughout the subsequent blocks. To retroactively alter a transaction/deal data, once must have majority consent(51% at least), which requires so huge a computing resource that it is practically impossible. Thus the system will be effectively unhackable and reliably uphold the interest of both farmers and buyers.
 
+### Screenshots:
+<div>
+<img style="height:500px;" src="src/assets/images/Screenshot1.png"/>&nbsp&nbsp&nbsp&nbsp<img style="height:500px;" src="src/assets/images/Screenshot2.png"/>
+</div>
 ### Contributors :
 
 1. [Nityananda Gohain](https://github.com/nityanandagohain)
