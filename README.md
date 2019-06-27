@@ -26,7 +26,7 @@ Once a deal is made between a supplier(farmer) and a consumer, it cannot be alte
 A supplier can monitor the market price as he has access to the transactions happening around.
 
 
-In case a deal has to be cancelled after processing it, the farmer can claim some amount of compensation. The buyer cannot deny placing an order or he cannot tamper the agreed price as the system is decentralized and a transaction in one block is reflected throughout the subsequent blocks. To retroactively alter a transaction/deal data, once must have majority consent(51% at least), which requires so huge a computing resource that it is practically impossible. Thus the system will be effectively unhackable and reliably uphold the interest of both farmers and buyers.
+In case a deal has to be cancelled after processing it, the farmer can claim some amount of compensation. The buyer cannot deny placing an order or he cannot tamper the agreed price as the system is decentralized and a transaction in one block is reflected throughout the subsequent blocks. To retroactively alter a transaction/deal data, one must have majority consent (51% at least), which requires so huge a computing resource that it is practically impossible. Thus the system will be effectively unhackable and will reliably uphold the interest of both farmers and buyers.
 
 ## Screenshots:
 <div>
